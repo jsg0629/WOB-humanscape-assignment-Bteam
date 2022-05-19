@@ -1,35 +1,49 @@
+@use 'styles/constants/colors';
+@use 'styles/mixins/position';
+@use 'styles/mixins/responsive';
+
 .serchInputForm {
   position: relative;
-  width: 650px;
+  max-width: 650px;
   margin: auto;
 
   .inputBox {
     padding: 9px 24px;
-    background-color: #ffffff;
+    background-color: colors.$WHITE;
     border-radius: 42px;
 
     .serchIcon {
+      @include position.absolute(50% auto auto 13px);
       font-size: 15px;
+      transform: translateY(-50%);
     }
 
     .serchInput {
-      width: 500px;
+      max-width: 500px;
       margin-left: 15px;
       line-height: 40px;
     }
   }
 
+  @include responsive.after(SD) {
+    .serchInputForm {
+      min-width: 500px;
+
+      .serchInput {
+        min-width: 500px;
+      }
+    }
+  }
+
   button {
-    position: absolute;
-    top: 0;
-    right: 0;
+    @include position.absolute(0 0 auto auto);
     padding: 15px 32px;
     font-size: 1.125rem;
     font-weight: 700;
     line-height: 1.6;
-    color: rgb(255, 255, 255);
+    color: colors.$WHITE;
     letter-spacing: -0.018em;
-    background-color: #007be9;
+    background-color: colors.$SEARCH_INPUT_BUTTON_BACKGROUND;
     border-top-right-radius: 42px;
     border-bottom-right-radius: 42px;
   }

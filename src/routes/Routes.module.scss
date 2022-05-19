@@ -1,12 +1,15 @@
-@use '/src/styles/constants/colors';
+@use 'styles/constants/colors';
+@use 'styles/mixins/flexbox';
 
 .appWrapper {
+  @include flexbox.flexbox('between');
+  flex-direction: column;
   height: 100%;
-  background-color: #cae9fe;
+  overflow: scroll;
+  background-color: colors.$WRAPPER_BACKGROUND;
 }
 
 .app {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
 }

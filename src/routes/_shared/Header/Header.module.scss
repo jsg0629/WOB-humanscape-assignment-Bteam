@@ -1,9 +1,11 @@
+@use 'styles/constants/colors';
+@use 'styles/mixins/flexbox';
+
 .header {
-  position: relative;
-  display: flex;
-  justify-content: center;
+  @include flexbox.flexbox('center', 'center');
+  width: 100%;
   padding: 20px 0;
-  background-color: white;
+  background-color: colors.$HEADER_BACKGROUND;
 
   .headerIcon {
     width: auto;
