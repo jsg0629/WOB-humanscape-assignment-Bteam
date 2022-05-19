@@ -14,7 +14,6 @@ import { IDiseaseError } from 'types/disease'
 
 export const useGetDisease = (searchWord: string) => {
   const dispatch = useAppDispatch()
-  console.log('요청>')
   return useQuery(
     ['getDiseaseApi', searchWord],
     () =>
@@ -40,13 +39,14 @@ const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
   const [SuggestedKeyword, setSuggestedKeyword] = useState([])
 
-  const debouncedValue = useDebounce(inputValue, 500)
+  const debouncedValue = useDebounce(inputValue, 300)
   const { isLoading, data } = useGetDisease(debouncedValue)
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
   }
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (debouncedValue.trim() === '' || !data) setSuggestedKeyword([])
     else if (data) {
@@ -71,7 +71,7 @@ const SerchInput = () => {
         </form>
       </div>
       <button type='submit'>검색</button>
-      {debouncedValue !== '' && <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />}
+      {debouncedValue.trim() !== '' && <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />}
     </div>
   )
 }
