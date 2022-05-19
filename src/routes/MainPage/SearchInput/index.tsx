@@ -9,7 +9,7 @@ import DropDown from '../DropDown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-export const useGetDisease = (searchWord: string) => {
+const useGetDisease = (searchWord: string) => {
   return useQuery(
     ['getDiseaseApi', searchWord],
     () =>
@@ -31,8 +31,9 @@ const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
   const [SuggestedKeyword, setSuggestedKeyword] = useState([])
 
-  const debouncedValue = useDebounce(inputValue, 500)
+  const debouncedValue = useDebounce(inputValue, 300)
   const { isLoading, data } = useGetDisease(debouncedValue)
+  console.log(data)
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
@@ -63,7 +64,7 @@ const SerchInput = () => {
         </form>
       </div>
       <button type='submit'>검색</button>
-      <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />
+      {debouncedValue.trim() !== '' && <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />}
     </div>
   )
 }
