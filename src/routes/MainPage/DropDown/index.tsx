@@ -9,7 +9,7 @@ interface IDropDownProps {
 }
 const DropDown = ({ SuggestedKeyword, isLoading }: IDropDownProps) => {
   console.log(SuggestedKeyword)
-  if (SuggestedKeyword.length === 0) return <span />
+  if (SuggestedKeyword.length === 0 && !isLoading) return <span />
   return (
     <div className={styles.dropDownWrapper}>
       {isLoading && <div>Loading...</div>}
