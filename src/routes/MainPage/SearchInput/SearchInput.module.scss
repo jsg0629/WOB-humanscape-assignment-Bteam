@@ -7,19 +7,23 @@
   max-width: 650px;
   margin: auto;
 
+  .form {
+    position: relative;
+  }
+
   .inputBox {
     padding: 9px 24px;
     background-color: colors.$WHITE;
     border-radius: 42px;
 
     .serchIcon {
-      @include position.absolute(50% auto auto 13px);
+      @include position.absolute(50% auto auto -7px);
       font-size: 15px;
       transform: translateY(-50%);
     }
 
     .serchInput {
-      max-width: 500px;
+      width: 100%;
       margin-left: 15px;
       line-height: 40px;
     }

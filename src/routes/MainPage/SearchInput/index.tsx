@@ -8,8 +8,13 @@ import styles from './SearchInput.module.scss'
 import DropDown from '../DropDown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { useAppDispatch } from 'hooks'
+import { setError } from 'states/disease'
+import { IDiseaseError } from 'types/disease'
 
 export const useGetDisease = (searchWord: string) => {
+  const dispatch = useAppDispatch()
+  console.log('요청>')
   return useQuery(
     ['getDiseaseApi', searchWord],
     () =>
@@ -23,6 +28,10 @@ export const useGetDisease = (searchWord: string) => {
       }).then((res) => res?.data?.response?.body.items),
     {
       staleTime: 6 * 10 * 1000,
+      useErrorBoundary: true,
+      onError: (error: IDiseaseError) => {
+        dispatch(setError(error))
+      },
     }
   )
 }
@@ -50,7 +59,7 @@ const SerchInput = () => {
   return (
     <div className={styles.serchInputForm}>
       <div className={styles.inputBox}>
-        <form>
+        <form className={styles.form}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
