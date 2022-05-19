@@ -1,8 +1,9 @@
-import styles from './MainPage.module.scss'
-import SerchInput from 'routes/MainPage/SearchInput'
-import ErrorBoundary from 'components/ErrorBoundary'
 import { useAppSelector } from 'hooks'
 import { getDieaseError } from 'states/disease'
+
+import SerchInput from 'routes/MainPage/SearchInput'
+import ErrorBoundary from 'components/ErrorBoundary'
+import styles from './MainPage.module.scss'
 
 const MainPage = (): JSX.Element => {
   const myError = useAppSelector(getDieaseError)

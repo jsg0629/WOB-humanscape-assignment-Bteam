@@ -1,6 +1,6 @@
-@use 'styles/constants/colors';
-@use 'styles/mixins/flexbox';
-@use 'styles/mixins/responsive';
+@use '/src/styles/constants/colors';
+@use '/src/styles/mixins/flexbox';
+@use '/src/styles/mixins/responsive';
 
 .footer {
   @include flexbox.flexbox('between', 'center');

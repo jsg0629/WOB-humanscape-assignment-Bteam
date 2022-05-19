@@ -1,6 +1,7 @@
-import styles from './ErrorFallback.module.scss'
-import { IDiseaseError } from 'types/disease'
 import dompurify from 'dompurify'
+
+import { IDiseaseError } from 'types/disease'
+import styles from './ErrorFallback.module.scss'
 
 interface IErrorFallbackProps {
   myError: IDiseaseError
@@ -8,6 +9,7 @@ interface IErrorFallbackProps {
 
 const ErrorFallback = ({ myError }: IErrorFallbackProps) => {
   const sanitizer = dompurify.sanitize
+
   const myErrorHandler = () => {
     window.location.reload()
   }

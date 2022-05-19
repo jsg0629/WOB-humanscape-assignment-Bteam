@@ -1,7 +1,6 @@
-import React from 'react'
-import styles from './DropDown.module.scss'
-import DropDownItem from './DropDownItem'
 import { v4 as uuidv4 } from 'uuid'
+import DropDownItem from './DropDownItem'
+import styles from './DropDown.module.scss'
 
 interface IDropDownProps {
   SuggestedKeyword: string[]

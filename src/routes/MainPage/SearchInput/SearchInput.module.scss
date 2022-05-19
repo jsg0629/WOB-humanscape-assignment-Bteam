@@ -1,6 +1,6 @@
-@use 'styles/constants/colors';
-@use 'styles/mixins/position';
-@use 'styles/mixins/responsive';
+@use '/src/styles/constants/colors';
+@use '/src/styles/mixins/position';
+@use '/src/styles/mixins/responsive';
 
 .serchInputForm {
   position: relative;
