@@ -5,11 +5,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import App from 'App'
 
 import { store } from './states'
 import reportWebVitals from './reportWebVitals'
 import './styles/index.scss'
+import Routes from './routes'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnMount: false } },
@@ -23,7 +23,7 @@ root.render(
       <Provider store={store}>
         <RecoilRoot>
           <BrowserRouter>
-            <App />
+            <Routes />
           </BrowserRouter>
         </RecoilRoot>
       </Provider>

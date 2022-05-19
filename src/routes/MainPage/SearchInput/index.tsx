@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import styles from './SearchInput.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import DropDown from './dropDown'
+import DropDown from '../DropDown'
 import { getDisease } from 'services/disease'
 
 const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
   const [SuggestedKeyword, setSuggestedKeyword] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
@@ -46,7 +47,7 @@ const SerchInput = () => {
         </form>
       </div>
       <button type='submit'>검색</button>
-      <DropDown SuggestedKeyword={SuggestedKeyword} />
+      <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />
     </div>
   )
 }
