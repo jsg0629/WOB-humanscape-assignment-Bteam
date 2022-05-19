@@ -10,12 +10,12 @@ interface Params {
   diseaseType?: string
   searchText: string
 }
-
+console.log(process.env.REACT_APP_DISEASE_API_KEY)
 export const getDisease = (params: Params) =>
   axios.get(`${WEATHER_BASE_URL}`, {
     timeout: 100000,
     params: {
-      serviceKey: process.env.REACT_APP_DISEASE_API_KEY,
+      serviceKey: process.env.REACT_APP_DISEASE_API_KEY, // decoding 키
       ...params,
     },
   })

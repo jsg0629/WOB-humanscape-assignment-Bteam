@@ -1,52 +1,46 @@
-# 휴먼스케이프 기업 과제 (6팀-B)
-## 검색어 추천이 있는 검색창 만들기
+# Getting Started with Create React App
 
-<br>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### 과제 기한
-- 2022/05/19 ~ 2022/05/21
+## Available Scripts
 
-- 3~5인이 2~3일 이내에 완료해야함
-  - 1일) 과제 스펙확인, 레이아웃 구성
-  - 2일) 기본 스펙 구현, 문서화
-  - 3일) 배포, 도전 과제 구현
+In the project directory, you can run:
 
+### `yarn start`
 
-### 기술 스택
-- Javascript(또는 Typescript)
-- React 
-- Redux-toolkit
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### 라이브러리
-- 
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
+### `yarn test`
 
-### 필수 사항
-- **Github Repository URL**
-- **README.md**
-    - 구현한 방법과 이유, 어려웠던 점에 대한 간략한 내용 서술
-    - 누구나 따라 할 수 있을 정도의 자세한 실행 방법
-    - 함수형 컴포넌트 사용 필수
-- **secret key, api key 등을 레포지토리에 올리지 않도록 유의**
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-<br><br>
+### `yarn build`
 
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- Import 순서
- - 외부 모듈 (react, toolkit...)
-   - 
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
- - type
- - hooks
- - state
-   -
- 
-  - components
-  - style
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- 폴더명
-  - 컴포넌트 폴더만 앞에 대문자?
-  - components (searchinput) 폴더 분리?]
+### `yarn eject`
 
-- Fuzzy 검색
-  - 
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).

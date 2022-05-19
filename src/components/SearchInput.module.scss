@@ -1,0 +1,35 @@
+.serchInputForm {
+  position: relative;
+  width: 650px;
+
+  .inputBox {
+    padding: 9px 24px;
+    background-color: #ffffff;
+    border-radius: 42px;
+
+    .serchIcon {
+      font-size: 15px;
+    }
+
+    .serchInput {
+      width: 500px;
+      margin-left: 15px;
+      line-height: 40px;
+    }
+  }
+
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px 32px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.6;
+    color: rgb(255, 255, 255);
+    letter-spacing: -0.018em;
+    background-color: #007be9;
+    border-top-right-radius: 42px;
+    border-bottom-right-radius: 42px;
+  }
+}
