@@ -17,7 +17,7 @@ const DropDown = ({ SuggestedKeyword, isLoading }: IDropDownProps) => {
           <div className={styles.dropDownTitle}>추천검색어</div>
           <ul>
             {SuggestedKeyword.map((element: IDiseaseItem) => {
-              return <DropDownItem key={element.sickNm} keyWord={element.sickNm} />
+              return <DropDownItem key={element.sickCd} keyWord={element.sickNm} />
             })}
           </ul>
         </>
