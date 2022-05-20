@@ -1,0 +1,11 @@
+@use '/src/styles/mixins/flexbox';
+
+.container {
+  @include flexbox.flexbox('center','center');
+  height: 100%;
+
+  h1 {
+    font-size: 50px;
+    font-weight: 700;
+  }
+}

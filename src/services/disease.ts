@@ -10,12 +10,26 @@ interface Params {
   diseaseType?: string
   searchText: string
 }
-console.log(process.env.REACT_APP_DISEASE_API_KEY)
+
+axios.interceptors.response.use(
+  (res) => {
+    if (!res.data.response) {
+      const errorMsg = { responseText: res.data, requestURL: res.config.url }
+      return Promise.reject(errorMsg)
+    }
+    return res
+  },
+  (error) => {
+    const errorMsg = { responseText: error.request.responseText, requestURL: error.config.url }
+    return Promise.reject(errorMsg)
+  }
+)
+
 export const getDisease = (params: Params) =>
   axios.get(`${WEATHER_BASE_URL}`, {
     timeout: 100000,
     params: {
-      serviceKey: process.env.REACT_APP_DISEASE_API_KEY, // decoding 키
+      serviceKey: process.env.REACT_APP_DISEASE_API_KEY,
       ...params,
     },
   })

@@ -1,9 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
-import styles from './Routes.module.scss'
 
 import MainPage from './MainPage'
 import Header from './_shared/Header'
 import Footer from './_shared/Footer'
+import NotFound from './_shared/NotFound'
+import styles from './Routes.module.scss'
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       <div className={styles.app}>
         <Routes>
           <Route path='/' element={<MainPage />} />
-          <Route path='*' element={<div>404</div>} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
       <Footer />
