@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
-
-import useDebounce from 'hooks/useDebounce'
-import { getDisease } from 'services/disease'
-
-import styles from './SearchInput.module.scss'
-import DropDown from '../DropDown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useAppDispatch } from 'hooks'
-import { setError } from 'states/disease'
+import { useOnClickOutside } from 'hooks/useOnClickOutside'
+
 import { IDiseaseError } from 'types/disease'
+import { useAppDispatch, useDebounce } from 'hooks'
+import { setError } from 'states/disease'
+import { getDisease } from 'services/disease'
+
+import DropDown from '../DropDown'
+import styles from './SearchInput.module.scss'
 
 export const useGetDisease = (searchWord: string) => {
   const dispatch = useAppDispatch()
@@ -24,7 +24,9 @@ export const useGetDisease = (searchWord: string) => {
         sickType: '1',
         medTp: '2',
         diseaseType: 'SICK_NM',
-      }).then((res) => res?.data?.response?.body.items),
+      }).then((res) => {
+        return res?.data?.response?.body.items
+      }),
     {
       staleTime: 6 * 10 * 1000,
       useErrorBoundary: true,
@@ -39,7 +41,7 @@ const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
   const [SuggestedKeyword, setSuggestedKeyword] = useState([])
 
-  const debouncedValue = useDebounce(inputValue, 300)
+  const debouncedValue = useDebounce(inputValue, 500)
   const { isLoading, data } = useGetDisease(debouncedValue)
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -56,6 +58,12 @@ const SerchInput = () => {
     }
   }, [debouncedValue, data])
 
+  const handleOnCloseDropDonw = () => {
+    setInputValue('')
+  }
+
+  const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
+
   return (
     <div className={styles.serchInputForm}>
       <div className={styles.inputBox}>
@@ -71,7 +79,9 @@ const SerchInput = () => {
         </form>
       </div>
       <button type='submit'>검색</button>
-      {debouncedValue.trim() !== '' && <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />}
+      {debouncedValue.trim() !== '' && (
+        <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} ref={backDropRef} />
+      )}
     </div>
   )
 }

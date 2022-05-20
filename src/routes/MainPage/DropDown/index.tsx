@@ -1,16 +1,17 @@
 import { v4 as uuidv4 } from 'uuid'
 import DropDownItem from './DropDownItem'
 import styles from './DropDown.module.scss'
+import { forwardRef } from 'react'
 
 interface IDropDownProps {
   SuggestedKeyword: string[]
   isLoading: boolean
 }
-const DropDown = ({ SuggestedKeyword, isLoading }: IDropDownProps) => {
+const DropDown = forwardRef<HTMLDivElement, IDropDownProps>(({ SuggestedKeyword, isLoading }, ref) => {
   if (SuggestedKeyword.length === 0 && !isLoading) return <span />
 
   return (
-    <div className={styles.dropDownWrapper}>
+    <div className={styles.dropDownWrapper} ref={ref}>
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
         <>
@@ -24,6 +25,8 @@ const DropDown = ({ SuggestedKeyword, isLoading }: IDropDownProps) => {
       )}
     </div>
   )
-}
+})
+
+DropDown.displayName = 'DropDown'
 
 export default DropDown

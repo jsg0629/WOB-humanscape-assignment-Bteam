@@ -13,6 +13,10 @@ interface Params {
 
 axios.interceptors.response.use(
   (res) => {
+    if (!res.data.response) {
+      const errorMsg = { responseText: res.data, requestURL: res.config.url }
+      return Promise.reject(errorMsg)
+    }
     return res
   },
   (error) => {
