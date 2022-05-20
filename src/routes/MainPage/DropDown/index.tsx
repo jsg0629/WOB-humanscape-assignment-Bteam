@@ -1,32 +1,29 @@
-import { v4 as uuidv4 } from 'uuid'
 import DropDownItem from './DropDownItem'
 import styles from './DropDown.module.scss'
-import { forwardRef } from 'react'
+import { IDiseaseItem } from 'types/disease'
 
 interface IDropDownProps {
-  SuggestedKeyword: string[]
+  SuggestedKeyword: IDiseaseItem[]
   isLoading: boolean
 }
-const DropDown = forwardRef<HTMLDivElement, IDropDownProps>(({ SuggestedKeyword, isLoading }, ref) => {
+const DropDown = ({ SuggestedKeyword, isLoading }: IDropDownProps) => {
   if (SuggestedKeyword.length === 0 && !isLoading) return <span />
 
   return (
-    <div className={styles.dropDownWrapper} ref={ref}>
+    <div className={styles.dropDownWrapper}>
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
         <>
           <div className={styles.dropDownTitle}>추천검색어</div>
           <ul>
-            {SuggestedKeyword.map((el: string) => {
-              return <DropDownItem key={uuidv4()} keyWord={el} />
+            {SuggestedKeyword.map((element: IDiseaseItem) => {
+              return <DropDownItem key={element.sickNm} keyWord={element.sickNm} />
             })}
           </ul>
         </>
       )}
     </div>
   )
-})
-
-DropDown.displayName = 'DropDown'
+}
 
 export default DropDown

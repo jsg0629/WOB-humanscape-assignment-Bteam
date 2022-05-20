@@ -19,8 +19,7 @@
 
   ul {
     li {
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding: 10px;
 
       svg {
         color: colors.$DROP_SVG;
@@ -29,6 +28,14 @@
       span {
         padding-left: 15px;
       }
+
+      &:focus {
+        background-color: rgb(150, 218, 230);
+      }
     }
   }
+}
+
+.list {
+  background-color: rgb(184, 240, 250);
 }

@@ -17,7 +17,13 @@ axios.interceptors.response.use(
       const errorMsg = { responseText: res.data, requestURL: res.config.url }
       return Promise.reject(errorMsg)
     }
-    return res
+
+    if (res.data.response.body.items === '' || !res.data.response.body.items.item)
+      return {
+        data: '',
+      }
+
+    return { data: res.data.response.body.items.item }
   },
   (error) => {
     const errorMsg = { responseText: error.request.responseText, requestURL: error.config.url }
