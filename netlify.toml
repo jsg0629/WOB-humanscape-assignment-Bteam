@@ -3,3 +3,7 @@ from = "/proxy/*"
   to = "http://apis.data.go.kr/:splat"  
   status = 200
   force = true
+  
+[context.production.environment]
+SASS_PATH=node_modules:src
+REACT_APP_DISEASE_API_KEY=HRDDNxGMhXsI1GpK06tG3Imec87rAdE5PxwdmeaqkhyinzLJz6XzOM+VOV5KNwacIp1a4SiUwO5JOD+xf0/BFg==
