@@ -1,10 +1,6 @@
 import { axios } from 'hooks/worker'
 
-const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy'
-// 해당변수는 호스트가 localhost에서 클라이언트 서버를 열면 값이 없지만 다른 호스트를 사용시에는 netlify.toml에 설정해둔
-// proxy값을 할당 받는다.
-
-const DISEASE_BASE_URL = `${PROXY}/api/B551182/diseaseInfoService/getDissNameCodeList`
+const DISEASE_BASE_URL = '/api/B551182/diseaseInfoService/getDissNameCodeList'
 
 interface Params {
   pageNo?: string
