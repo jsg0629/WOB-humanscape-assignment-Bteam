@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 
+import { useGetDisease } from 'hooks'
 import MainPage from './MainPage'
 import Header from './_shared/Header'
 import Footer from './_shared/Footer'

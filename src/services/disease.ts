@@ -13,6 +13,7 @@ interface Params {
 
 axios.interceptors.response.use(
   (res) => {
+    console.log('res: ', res)
     if (!res.data.response) {
       const errorMsg = { responseText: res.data, requestURL: res.config.url }
       return Promise.reject(errorMsg)
@@ -26,6 +27,7 @@ axios.interceptors.response.use(
     return { data: res.data.response.body.items.item }
   },
   (error) => {
+    console.log('err:', error)
     const errorMsg = { responseText: error.request.responseText, requestURL: error.config.url }
     return Promise.reject(errorMsg)
   }

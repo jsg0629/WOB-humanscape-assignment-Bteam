@@ -1,11 +1,29 @@
 import { useQuery } from 'react-query'
 import { getDisease } from 'services/disease'
-import { setError } from 'states/disease'
+import { setDiseaseList, setError } from 'states/disease'
 import { IDiseaseError } from 'types/disease'
 import { useAppDispatch } from './useAppDispatch'
 
-export const useGetDisease = (searchWord: string) => {
+interface IUseGetDiseaseProps {
+  searchWord: string
+  numOfRows?: string
+  isGetAllData?: boolean
+  isConsonant?: boolean
+}
+
+export const useGetDisease = ({
+  searchWord,
+  numOfRows = '10',
+  isGetAllData = false,
+  isConsonant = false,
+}: IUseGetDiseaseProps) => {
   const dispatch = useAppDispatch()
+  const INITIAL_PARAMS = {
+    pageNo: '1',
+    sickType: '1',
+    medTp: '2',
+    diseaseType: 'SICK_NM',
+  }
 
   return useQuery(
     ['getDiseaseApi', searchWord],
@@ -13,11 +31,8 @@ export const useGetDisease = (searchWord: string) => {
       console.log('호출')
       return getDisease({
         searchText: searchWord,
-        pageNo: '1',
-        numOfRows: '10',
-        sickType: '1',
-        medTp: '2',
-        diseaseType: 'SICK_NM',
+        ...INITIAL_PARAMS,
+        numOfRows,
       }).then((res) => {
         return res.data
       })
@@ -26,7 +41,7 @@ export const useGetDisease = (searchWord: string) => {
       staleTime: 6 * 10 * 1000,
       refetchOnWindowFocus: true,
       useErrorBoundary: true,
-      enabled: searchWord.trim() !== '',
+      enabled: (searchWord.trim() !== '' && !isConsonant) || isGetAllData,
       onError: (error: IDiseaseError) => {
         dispatch(setError(error))
       },
@@ -34,6 +49,11 @@ export const useGetDisease = (searchWord: string) => {
         if (!value || value === '') return []
         const searchedData = value.length ? value : [value]
         return searchedData
+      },
+      onSuccess: (value) => {
+        if (isGetAllData) {
+          dispatch(setDiseaseList(value))
+        }
       },
     }
   )
