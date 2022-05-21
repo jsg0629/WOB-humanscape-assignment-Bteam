@@ -6,10 +6,12 @@ import { useAppDispatch } from './useAppDispatch'
 
 export const useGetDisease = (searchWord: string) => {
   const dispatch = useAppDispatch()
+
   return useQuery(
     ['getDiseaseApi', searchWord],
-    () =>
-      getDisease({
+    () => {
+      console.log('호출')
+      return getDisease({
         searchText: searchWord,
         pageNo: '1',
         numOfRows: '10',
@@ -18,7 +20,8 @@ export const useGetDisease = (searchWord: string) => {
         diseaseType: 'SICK_NM',
       }).then((res) => {
         return res.data
-      }),
+      })
+    },
     {
       staleTime: 6 * 10 * 1000,
       refetchOnWindowFocus: true,

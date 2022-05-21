@@ -12,10 +12,10 @@ const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
   const debouncedValue = useDebounce(inputValue, 500)
 
-  const [SuggestedKeyword, setSuggestedKeyword] = useState([])
+  const [suggestedKeyword, setSuggestedKeyword] = useState([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
 
-  const { isLoading, data } = useGetDisease(debouncedValue)
+  const { isLoading, data: diseaseData } = useGetDisease(debouncedValue)
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
@@ -23,10 +23,10 @@ const SerchInput = () => {
   }
 
   useEffect(() => {
-    if (!data) return
-    setSuggestedKeyword(data)
+    if (!diseaseData) return
+    setSuggestedKeyword(diseaseData)
     setIsOpenDropdown(true)
-  }, [data])
+  }, [diseaseData])
 
   const handleOnCloseDropDonw = () => {
     setIsOpenDropdown(false)
@@ -54,7 +54,9 @@ const SerchInput = () => {
         </form>
       </div>
       <button type='submit'>검색</button>
-      {isOpenDropdown && <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} />}
+      {isOpenDropdown && debouncedValue !== '' && (
+        <DropDown suggestedKeyword={suggestedKeyword} isLoading={isLoading} />
+      )}
     </div>
   )
 }
