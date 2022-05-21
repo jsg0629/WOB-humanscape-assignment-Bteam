@@ -23,9 +23,7 @@ const SerchInput = () => {
 
   const allDiseaseData = useAppSelector(getDiseaseList)
 
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setIsConsonant(false)
-    setSuggestedKeyword([])
+  const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
   }
 
@@ -60,7 +58,7 @@ const SerchInput = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
-            onChange={handleInputValue}
+            onChange={handleOnChangeInput}
             onFocus={handleOnFocusInput}
             value={inputValue}
             type='text'
