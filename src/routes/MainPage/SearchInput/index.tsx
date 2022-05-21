@@ -1,77 +1,52 @@
-import React, { useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useState, useEffect, ChangeEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 
-import { IDiseaseError } from 'types/disease'
-import { useAppDispatch, useDebounce } from 'hooks'
-import { setError } from 'states/disease'
-import { getDisease } from 'services/disease'
+import { useDebounce, useGetDisease } from 'hooks'
 
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
 
-export const useGetDisease = (searchWord: string) => {
-  const dispatch = useAppDispatch()
-  return useQuery(
-    ['getDiseaseApi', searchWord],
-    () =>
-      getDisease({
-        searchText: searchWord,
-        pageNo: '1',
-        numOfRows: '10',
-        sickType: '1',
-        medTp: '2',
-        diseaseType: 'SICK_NM',
-      }).then((res) => {
-        return res?.data?.response?.body.items
-      }),
-    {
-      staleTime: 6 * 10 * 1000,
-      useErrorBoundary: true,
-      onError: (error: IDiseaseError) => {
-        dispatch(setError(error))
-      },
-    }
-  )
-}
-
 const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
-  const [SuggestedKeyword, setSuggestedKeyword] = useState([])
-
   const debouncedValue = useDebounce(inputValue, 500)
-  const { isLoading, data } = useGetDisease(debouncedValue)
 
-  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const [suggestedKeyword, setSuggestedKeyword] = useState([])
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false)
+
+  const { isLoading, data: diseaseData } = useGetDisease(debouncedValue)
+
+  const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
+    setSuggestedKeyword([])
   }
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (debouncedValue.trim() === '' || !data) setSuggestedKeyword([])
-    else if (data) {
-      const searchedData = data.item.length ? data.item : [data.item]
-      const filteredData = searchedData.map((el: { sickCd: string; sickNm: string }) => el.sickNm)
-      setSuggestedKeyword(filteredData)
-    }
-  }, [debouncedValue, data])
+    if (!diseaseData) return
+    setSuggestedKeyword(diseaseData)
+    setIsOpenDropdown(true)
+  }, [diseaseData])
 
   const handleOnCloseDropDonw = () => {
-    setInputValue('')
+    setIsOpenDropdown(false)
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
 
+  const handleOnFocusInput = () => {
+    setIsOpenDropdown(true)
+  }
+
   return (
-    <div className={styles.serchInputForm}>
+    <div className={styles.serchInputForm} ref={backDropRef}>
       <div className={styles.inputBox}>
         <form className={styles.form}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
             onChange={handleInputValue}
+            onFocus={handleOnFocusInput}
             value={inputValue}
             type='text'
             placeholder='질환명을 입력해 주세요.'
@@ -79,8 +54,8 @@ const SerchInput = () => {
         </form>
       </div>
       <button type='submit'>검색</button>
-      {debouncedValue.trim() !== '' && (
-        <DropDown SuggestedKeyword={SuggestedKeyword} isLoading={isLoading} ref={backDropRef} />
+      {isOpenDropdown && debouncedValue !== '' && (
+        <DropDown suggestedKeyword={suggestedKeyword} isLoading={isLoading} />
       )}
     </div>
   )

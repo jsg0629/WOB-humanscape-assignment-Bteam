@@ -19,8 +19,7 @@
 
   ul {
     li {
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding: 10px;
 
       svg {
         color: colors.$DROP_SVG;
@@ -31,4 +30,8 @@
       }
     }
   }
+}
+
+.list {
+  background-color: rgb(184, 240, 250);
 }

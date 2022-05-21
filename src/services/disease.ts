@@ -1,6 +1,6 @@
 import { axios } from 'hooks/worker'
 
-const WEATHER_BASE_URL = '/api/B551182/diseaseInfoService/getDissNameCodeList'
+const DISEASE_BASE_URL = '/api/B551182/diseaseInfoService/getDissNameCodeList'
 
 interface Params {
   pageNo?: string
@@ -17,7 +17,13 @@ axios.interceptors.response.use(
       const errorMsg = { responseText: res.data, requestURL: res.config.url }
       return Promise.reject(errorMsg)
     }
-    return res
+
+    if (res.data.response.body.items === '' || !res.data.response.body.items.item)
+      return {
+        data: '',
+      }
+
+    return { data: res.data.response.body.items.item }
   },
   (error) => {
     const errorMsg = { responseText: error.request.responseText, requestURL: error.config.url }
@@ -26,7 +32,7 @@ axios.interceptors.response.use(
 )
 
 export const getDisease = (params: Params) =>
-  axios.get(`${WEATHER_BASE_URL}`, {
+  axios.get(`${DISEASE_BASE_URL}`, {
     timeout: 100000,
     params: {
       serviceKey: process.env.REACT_APP_DISEASE_API_KEY,
