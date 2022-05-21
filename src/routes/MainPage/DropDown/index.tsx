@@ -15,7 +15,7 @@ const DropDown = ({ suggestedKeyword, isLoading, searchWord }: IDropDownProps) =
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
         <>
-          {suggestedKeyword.length === 0 && <div>추천검색어가 없습니다.</div>}
+          {suggestedKeyword.length === 0 && <div>추천 검색어가 없습니다.</div>}
           <ul>
             {suggestedKeyword.map((element: IDiseaseItem) => {
               return <DropDownItem key={element.sickCd} keyWord={element.sickNm} searchWord={searchWord} />

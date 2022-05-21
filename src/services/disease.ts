@@ -14,7 +14,6 @@ interface Params {
 
 axios.interceptors.response.use(
   (res) => {
-    // console.log('res: ', res)
     if (!res.data.response) {
       const errorMsg: IDiseaseError = { responseText: res.data, requestURL: res.config.url ?? '' }
       return Promise.reject(errorMsg)
@@ -29,7 +28,6 @@ axios.interceptors.response.use(
   },
   (error) => {
     // TODO: 타입 정의 OR 수정
-    // console.log('err:', error)
     const errorMsg: IDiseaseError = { responseText: error.request.responseText, requestURL: error.config.url }
     return Promise.reject(errorMsg)
   }

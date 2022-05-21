@@ -60,9 +60,11 @@ const getConsonantSearch = (searchConsonant: string, allDiseaseData: IDiseaseIte
     })
     .map((row) => {
       let longestDistance = 0
+
       row.sickNm.replace(regex, (match, ...groups) => {
         const letters = groups.slice(0, searchConsonant.length)
         let lastIndex = 0
+
         for (let i = 0, l = letters.length; i < l; i += 1) {
           const idx = match.indexOf(letters[i], lastIndex)
           if (lastIndex > 0) {
@@ -70,20 +72,19 @@ const getConsonantSearch = (searchConsonant: string, allDiseaseData: IDiseaseIte
           }
           lastIndex = idx + 1
         }
+
         return row.sickNm
       })
 
       return { row, longestDistance }
     })
-
-  const result = filteredData
     .sort((a, b) => {
       return a.longestDistance - b.longestDistance
     })
     .slice(1, 10)
     .map((value) => value.row)
 
-  return result
+  return filteredData
 }
 
 export { ch2pattern, getConsonantSearch, createFuzzyMatcher }
