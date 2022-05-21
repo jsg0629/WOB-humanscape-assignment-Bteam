@@ -1,0 +1,14 @@
+@use '/src/styles/constants/colors';
+@use '/src/styles/mixins/flexbox';
+
+.header {
+  @include flexbox.flexbox('center', 'center');
+  width: 100%;
+  padding: 20px 0;
+  background-color: colors.$HEADER_BACKGROUND;
+
+  .headerIcon {
+    width: auto;
+    height: 30px;
+  }
+}

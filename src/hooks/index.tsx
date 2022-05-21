@@ -8,6 +8,8 @@ export { useI18n } from './useI18n'
 export { useTimeoutFn } from './useTimeoutFn'
 export { useAppDispatch } from './useAppDispatch'
 export { useAppSelector } from './useAppSelector'
+export { useDebounce } from './useDebounce'
+export { useGetDisease } from './useGetDisease'
 
 export function useMounted(): boolean {
   const [mounted, setMounted] = useState(false)

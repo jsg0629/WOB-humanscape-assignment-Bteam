@@ -1,0 +1,13 @@
+@use '/src/styles/mixins/flexbox';
+
+.container {
+  @include flexbox.flexbox('center','center');
+  flex-direction: column;
+  height: 100%;
+
+  h1 {
+    margin-bottom: 20px;
+    font-size: 50px;
+    font-weight: 700;
+  }
+}

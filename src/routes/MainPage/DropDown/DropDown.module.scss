@@ -1,0 +1,37 @@
+@use '/src/styles/constants/colors';
+
+.dropDownWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px 24px 16px;
+  margin-top: 8px;
+  background-color: colors.$WHITE;
+  border-radius: 20px;
+
+  .dropDownTitle {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: colors.$DROP_DOWN_TITLE;
+    letter-spacing: -0.018em;
+  }
+
+  ul {
+    li {
+      padding: 10px;
+
+      svg {
+        color: colors.$DROP_SVG;
+      }
+
+      span {
+        padding-left: 15px;
+      }
+    }
+  }
+}
+
+.list {
+  background-color: rgb(184, 240, 250);
+}

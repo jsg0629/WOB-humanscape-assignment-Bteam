@@ -1,0 +1,24 @@
+@use '/src/styles/constants/colors';
+@use '/src/styles/mixins/responsive';
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500&display=swap');
+
+.mainWrapper {
+  width: 100%;
+  padding: 25px 0 50px;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 2.125rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: colors.$BIG_TITLE;
+  text-align: center;
+  letter-spacing: -0.018em;
+
+  @include responsive.mobileOnly {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}

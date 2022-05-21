@@ -1,0 +1,29 @@
+@use '/src/styles/constants/colors';
+@use '/src/styles/mixins/flexbox';
+@use '/src/styles/mixins/responsive';
+
+.footer {
+  @include flexbox.flexbox('between', 'center');
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+  padding: 0 100px;
+  color: colors.$FOOTER_TEXT;
+  background-color: colors.$FOOTER_BACKGROUND;
+
+  @include responsive.mobileOnly {
+    flex-direction: column;
+    padding: 10px;
+    line-height: 10px;
+  }
+
+  .footerSubTitle {
+    text-align: right;
+  }
+
+  .footerTitle {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: -0.018em;
+  }
+}
