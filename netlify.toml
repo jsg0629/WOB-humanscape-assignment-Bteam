@@ -3,4 +3,3 @@ from = "/proxy/*"
 to = "http://apis.data.go.kr/:splat"  
 status = 200
 force = true
-
