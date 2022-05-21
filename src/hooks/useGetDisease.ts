@@ -26,9 +26,10 @@ export const useGetDisease = ({
   }
 
   return useQuery(
-    ['getDiseaseApi', searchWord],
+    ['getDiseaseApi', searchWord, isGetAllData],
     () => {
-      console.log('호출')
+      // eslint-disable-next-line no-console
+      console.log('호출', searchWord)
       return getDisease({
         searchText: searchWord,
         ...INITIAL_PARAMS,
@@ -41,7 +42,7 @@ export const useGetDisease = ({
       staleTime: 6 * 10 * 1000,
       refetchOnWindowFocus: true,
       useErrorBoundary: true,
-      enabled: (searchWord.trim() !== '' && !isConsonant) || isGetAllData,
+      enabled: (searchWord.trim() !== '' && !isConsonant && !isGetAllData) || isGetAllData,
       onError: (error: IDiseaseError) => {
         dispatch(setError(error))
       },

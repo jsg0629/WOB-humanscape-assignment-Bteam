@@ -1,6 +1,8 @@
 import { IDiseaseItem } from 'types/disease'
 import { escapeRegExp } from 'lodash'
 
+const OFFSET = 44032
+
 const con2syl = {
   ㄱ: '가'.charCodeAt(0),
   ㄲ: '까'.charCodeAt(0),
@@ -15,10 +17,24 @@ const con2syl = {
 }
 
 function ch2pattern(ch: string) {
+  if (/[가-힣]/.test(ch)) {
+    const chCode = ch.charCodeAt(0) - OFFSET
+
+    if (chCode % 28 > 0) {
+      return ch
+    }
+
+    const begin = Math.floor(chCode / 28) * 28 + OFFSET
+    const end = begin + 27
+
+    return `[\\u${begin.toString(16)}-\\u${end.toString(16)}]`
+  }
+
   if (/[ㄱ-ㅎ]/.test(ch)) {
     const begin =
       con2syl[ch as keyof typeof con2syl] || (ch.charCodeAt(0) - 12613) /* 'ㅅ'의 코드 */ * 588 + con2syl['ㅅ']
     const end = begin + 587
+
     return `[${ch}\\u${begin.toString(16)}-\\u${end.toString(16)}]`
   }
   return escapeRegExp(ch)
@@ -30,12 +46,14 @@ function createFuzzyMatcher(input: string) {
     .map(ch2pattern)
     .map((tempPattern) => `(${tempPattern})`)
     .join('.*?')
+
   return new RegExp(pattern)
 }
 
 const getConsonantSearch = (searchConsonant: string, allDiseaseData: IDiseaseItem[]): IDiseaseItem[] => {
   const regex = createFuzzyMatcher(searchConsonant)
 
+  // TODO: 정리
   const filteredData = allDiseaseData
     .filter((row) => {
       return regex.test(row.sickNm)

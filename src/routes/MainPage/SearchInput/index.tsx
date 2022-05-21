@@ -13,35 +13,46 @@ import { getDiseaseList } from 'states/disease'
 
 const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
-  const debouncedValue = useDebounce(inputValue, 500)
+  const [isConsonant, setIsConsonant] = useState(false)
+  const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
 
   const [suggestedKeyword, setSuggestedKeyword] = useState<IDiseaseItem[]>([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
 
-  const isConsonant = /[ㄱ-ㅎ]/.test(debouncedValue)
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
   const allDiseaseData = useAppSelector(getDiseaseList)
+  console.log(debouncedValue, 'diseaseData', diseaseData)
+  console.log(debouncedValue, isConsonant, 'iscon', allDiseaseData.length)
+  console.log('suggestedKeyword', suggestedKeyword)
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.currentTarget.value)
+    setIsConsonant(false)
     setSuggestedKeyword([])
+    setInputValue(e.currentTarget.value)
   }
 
   useEffect(() => {
-    if (isConsonant) {
-      const result = getConsonantSearch(debouncedValue, allDiseaseData)
-      setSuggestedKeyword(result)
-      setIsOpenDropdown(true)
-      return
+    console.log('')
+    console.log('useevffect?> isConsonant  ', isConsonant, diseaseData, debouncedValue)
+    if (diseaseData?.length > 0) {
+      console.log('diseaseData?> effect  ', diseaseData.length)
+      setSuggestedKeyword(diseaseData)
     }
-    if (!diseaseData) return
-    setSuggestedKeyword(diseaseData)
+
+    if (isConsonant) {
+      console.log('초성 찾기  ', debouncedValue)
+      const result = getConsonantSearch(debouncedValue, allDiseaseData)
+      console.log('iscons result: ', result)
+      setSuggestedKeyword(result)
+    }
+
     setIsOpenDropdown(true)
   }, [allDiseaseData, debouncedValue, diseaseData, isConsonant])
 
   const handleOnCloseDropDonw = () => {
     setIsOpenDropdown(false)
+    setInputValue('')
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDonw)

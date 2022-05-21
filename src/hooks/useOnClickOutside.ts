@@ -14,9 +14,9 @@ export const useOnClickOutside = (onClose: () => void) => {
   )
 
   useEffect(() => {
-    document.addEventListener('click', clickListener)
+    document.addEventListener('mousedown', clickListener)
     return () => {
-      document.removeEventListener('click', clickListener)
+      document.removeEventListener('mousedown', clickListener)
     }
   }, [clickListener])
 
