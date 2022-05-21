@@ -4,12 +4,16 @@ import styles from '../DropDown.module.scss'
 
 interface IDropDownItemProps {
   keyWord: string
+  searchWord: string
 }
-const DropDownItem = ({ keyWord }: IDropDownItemProps) => {
+
+const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
+  // eslint-disable-next-line no-console
+  console.log(searchWord)
   return (
     <li>
       <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
-      <span>{keyWord}</span>
+      <div>{keyWord}</div>
     </li>
   )
 }
