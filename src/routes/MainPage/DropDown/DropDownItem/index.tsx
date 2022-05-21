@@ -1,21 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import styles from '../DropDown.module.scss'
-import HighLightItem from './HighLightItem'
-import dompurify from 'dompurify'
+import HighLightItemCopy from './HighLightItemCopy'
+// import dompurify from 'dompurify'
+// import HighLightItem from './HighLightItem'
 
 interface IDropDownItemProps {
   keyWord: string
   searchWord: string
 }
 
+// TODO: 수정
 const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
-  const tempItemp = HighLightItem({ text: keyWord, query: searchWord })
-  const sanitizer = dompurify.sanitize
+  // const tempItemp = HighLightItem({ text: keyWord, searchWord })
+  const tempItemp = HighLightItemCopy({ text: keyWord, searchWord })
+  // const sanitizer = dompurify.sanitize
   return (
+    // <li>
+    //   <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
+    //   <span dangerouslySetInnerHTML={{ __html: tempItemp }} />
+    // </li>
     <li>
       <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
-      <span dangerouslySetInnerHTML={{ __html: sanitizer(tempItemp) }} />
+      <div>{tempItemp}</div>
     </li>
   )
 }

@@ -13,35 +13,38 @@ import { getDiseaseList } from 'states/disease'
 
 const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
-  const debouncedValue = useDebounce(inputValue, 500)
+  const [isConsonant, setIsConsonant] = useState(false)
+  const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
 
   const [suggestedKeyword, setSuggestedKeyword] = useState<IDiseaseItem[]>([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
 
-  const isConsonant = /[ㄱ-ㅎ]/.test(debouncedValue)
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
   const allDiseaseData = useAppSelector(getDiseaseList)
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.currentTarget.value)
+    setIsConsonant(false)
     setSuggestedKeyword([])
+    setInputValue(e.currentTarget.value)
   }
 
   useEffect(() => {
+    if (diseaseData?.length > 0) {
+      setSuggestedKeyword(diseaseData)
+    }
+
     if (isConsonant) {
       const result = getConsonantSearch(debouncedValue, allDiseaseData)
       setSuggestedKeyword(result)
-      setIsOpenDropdown(true)
-      return
     }
-    if (!diseaseData) return
-    setSuggestedKeyword(diseaseData)
+
     setIsOpenDropdown(true)
   }, [allDiseaseData, debouncedValue, diseaseData, isConsonant])
 
   const handleOnCloseDropDonw = () => {
     setIsOpenDropdown(false)
+    setInputValue('')
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
