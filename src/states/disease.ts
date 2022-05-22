@@ -33,5 +33,5 @@ export default systemSlice.reducer
 
 // Selector =====================
 
-export const getDieaseList = (state: RootState): IDiseaseItem[] => state.disease.diseaseList
-export const getDieaseError = (state: RootState): IDiseaseError => state.disease.error
+export const getDiseaseList = (state: RootState): IDiseaseItem[] => state.disease.diseaseList
+export const getDiseaseError = (state: RootState): IDiseaseError => state.disease.error

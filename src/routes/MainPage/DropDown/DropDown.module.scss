@@ -1,4 +1,5 @@
 @use '/src/styles/constants/colors';
+@use '/src/styles/mixins/position';
 
 .dropDownWrapper {
   display: flex;
@@ -19,7 +20,12 @@
 
   ul {
     li {
-      padding: 10px;
+      position: relative;
+      padding: 10px 25px;
+
+      &:hover {
+        cursor: pointer;
+      }
 
       svg {
         color: colors.$DROP_SVG;
@@ -27,11 +33,25 @@
 
       span {
         padding-left: 15px;
+
+        mark {
+          font-weight: 600;
+          background-color: transparent;
+        }
       }
     }
   }
 }
 
-.list {
-  background-color: rgb(184, 240, 250);
+.serchIcon {
+  @include position.absolute(9px 0 0 0);
+}
+
+.noResult,
+.loading {
+  padding: 16px 0;
+}
+
+.isFocused {
+  background-color: colors.$GRAYE;
 }

@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { useEffect } from 'react'
-import { getDieaseList, setDiseaseList } from 'states/disease'
+import { getDiseaseList, setDiseaseList } from 'states/disease'
 import { getDisease } from 'services/disease'
 import { useQuery } from 'react-query'
 import { isAxiosError } from 'utils/axios'
 
 const Dieases = () => {
   const dispatch = useAppDispatch()
-  const diseaseList = useAppSelector(getDieaseList)
+  const diseaseList = useAppSelector(getDiseaseList)
 
   const handleGetDiease = () => {
     console.log(diseaseList)

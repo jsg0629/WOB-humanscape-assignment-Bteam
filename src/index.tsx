@@ -2,10 +2,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import App from 'App'
 
 import { store } from './states'
 import reportWebVitals from './reportWebVitals'
@@ -22,11 +20,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <Provider store={store}>
-        <RecoilRoot>
-          <BrowserRouter>
-            <Routes />
-          </BrowserRouter>
-        </RecoilRoot>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
       </Provider>
     </QueryClientProvider>
   </React.StrictMode>
