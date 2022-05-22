@@ -3,21 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 import { IDiseaseItem } from 'types/disease'
-import { useAppSelector, useDebounce, useGetDisease } from 'hooks'
-import { useOnClickOutside } from 'hooks/useOnClickOutside'
+import { useAppSelector, useDebounce, useGetDisease, useOnClickOutside } from 'hooks'
+import { getConsonantSearch } from '../utils/getConsonantSearch'
 import { getDiseaseList } from 'states/disease'
 
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
-import { getConsonantSearch } from '../utils/getConsonantSearch'
 
 interface ISerchInputProps {
   getAllDataIsFetched: boolean
 }
 
 const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
-  const allDiseaseData = useAppSelector(getDiseaseList)
-
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
@@ -27,9 +24,11 @@ const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
 
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSuggestedKeyword([])
+  const allDiseaseData = useAppSelector(getDiseaseList)
+
+  const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
+    setSuggestedKeyword([])
   }
 
   useEffect(() => {
@@ -62,7 +61,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
-            onChange={handleInputValue}
+            onChange={handleOnChangeInput}
             onFocus={handleOnFocusInput}
             value={inputValue}
             type='text'
