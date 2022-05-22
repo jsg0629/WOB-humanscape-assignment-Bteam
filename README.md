@@ -91,7 +91,7 @@ REACT_APP_DISEASE_API_KEY=서비스 키
 
 → API 링크: [https://www.data.go.kr/data/15001675/openapi.do](https://www.data.go.kr/data/15001675/openapi.do)
 
-→ 제공되는 두 개의 키(Encoding/Decoding) 중 Encoding 키를 서비스 키에 입력
+→ 제공되는 두 개의 키(Encoding/Decoding) 중 Decoding 키를 서비스 키에 입력
 
 - 필요한 모듈 설치
 
