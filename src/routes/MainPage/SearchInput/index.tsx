@@ -61,7 +61,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   }
 
   const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!suggestedKeyword.length) return
+    if (suggestedKeyword.length === 0) return
 
     const resultArrayLength = suggestedKeyword.length
 
@@ -76,32 +76,16 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
     }
 
     if (e.key === 'ArrowDown') {
-      if (focusedDropDownItemIndex === -1) {
-        setIsOpenDropdown(true)
-        setFocusedDropDownItemIndex(0)
+      if (focusedDropDownItemIndex >= resultArrayLength - 1) {
+        setFocusedDropDownItemIndex(-1)
       }
-
-      if (focusedDropDownItemIndex !== -1) {
-        setFocusedDropDownItemIndex((prev) => prev + 1)
-      }
-
-      if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === resultArrayLength - 1) {
-        setFocusedDropDownItemIndex(0)
-      }
+      setFocusedDropDownItemIndex((prev) => prev + 1)
     }
-
     if (e.key === 'ArrowUp') {
-      if (focusedDropDownItemIndex === -1) {
-        setFocusedDropDownItemIndex(0)
+      if (focusedDropDownItemIndex <= 0) {
+        setFocusedDropDownItemIndex(resultArrayLength)
       }
-
-      if (focusedDropDownItemIndex !== -1) {
-        setFocusedDropDownItemIndex((prev) => prev - 1)
-      }
-
-      if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === 0) {
-        setFocusedDropDownItemIndex(resultArrayLength - 1)
-      }
+      setFocusedDropDownItemIndex((prev) => prev - 1)
     }
   }
 
