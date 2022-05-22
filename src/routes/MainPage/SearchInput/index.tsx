@@ -1,17 +1,20 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useOnClickOutside } from 'hooks/useOnClickOutside'
 
-import { useAppSelector, useDebounce, useGetDisease } from 'hooks'
+import { IDiseaseItem } from 'types/disease'
+import { useAppSelector, useDebounce, useGetDisease, useOnClickOutside } from 'hooks'
+import { getConsonantSearch } from '../utils/getConsonantSearch'
+import { getDiseaseList } from 'states/disease'
 
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
-import { getConsonantSearch } from '../utils/getConsonantSearch'
-import { IDiseaseItem } from 'types/disease'
-import { getDiseaseList } from 'states/disease'
 
-const SerchInput = () => {
+interface ISerchInputProps {
+  getAllDataIsFetched: boolean
+}
+
+const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
@@ -23,10 +26,9 @@ const SerchInput = () => {
 
   const allDiseaseData = useAppSelector(getDiseaseList)
 
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setIsConsonant(false)
-    setSuggestedKeyword([])
+  const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
+    setSuggestedKeyword([])
   }
 
   useEffect(() => {
@@ -44,7 +46,6 @@ const SerchInput = () => {
 
   const handleOnCloseDropDonw = () => {
     setIsOpenDropdown(false)
-    setInputValue('')
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
@@ -60,17 +61,24 @@ const SerchInput = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
-            onChange={handleInputValue}
+            onChange={handleOnChangeInput}
             onFocus={handleOnFocusInput}
             value={inputValue}
             type='text'
             placeholder='질환명을 입력해 주세요.'
           />
         </form>
+        <button type='submit'>검색</button>
       </div>
-      <button type='submit'>검색</button>
+
+      {/* TODO: debouncedValue !== '' 필요? */}
       {isOpenDropdown && debouncedValue !== '' && (
-        <DropDown suggestedKeyword={suggestedKeyword} isLoading={isLoading} searchWord={debouncedValue} />
+        <DropDown
+          suggestedKeyword={suggestedKeyword}
+          isLoading={isLoading}
+          searchWord={debouncedValue}
+          getAllDataIsFetched={getAllDataIsFetched}
+        />
       )}
     </div>
   )

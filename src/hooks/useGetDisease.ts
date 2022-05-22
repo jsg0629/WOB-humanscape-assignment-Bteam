@@ -1,8 +1,10 @@
 import { useQuery } from 'react-query'
+
 import { getDisease } from 'services/disease'
 import { setDiseaseList, setError } from 'states/disease'
+import { increment, countApi } from 'states/count'
 import { IDiseaseError } from 'types/disease'
-import { useAppDispatch } from './useAppDispatch'
+import { useAppSelector, useAppDispatch } from 'hooks'
 
 interface IUseGetDiseaseProps {
   searchWord: string
@@ -25,12 +27,15 @@ export const useGetDisease = ({
   isConsonant = false,
 }: IUseGetDiseaseProps) => {
   const dispatch = useAppDispatch()
+  const countApiCall = useAppSelector(countApi)
 
   return useQuery(
     ['getDiseaseApi', searchWord, isGetAllData],
     () => {
       // eslint-disable-next-line no-console
-      console.log('API 호출: ', searchWord)
+      console.log('API 호출 횟수:', countApiCall)
+      dispatch(increment())
+
       return getDisease({
         searchText: searchWord,
         ...INITIAL_PARAMS,
@@ -40,8 +45,7 @@ export const useGetDisease = ({
       })
     },
     {
-      staleTime: 6 * 10 * 1000,
-      refetchOnWindowFocus: true,
+      staleTime: 6 * 50 * 1000,
       useErrorBoundary: true,
       enabled: (searchWord.trim() !== '' && !isConsonant && !isGetAllData) || isGetAllData,
       onError: (error: IDiseaseError) => {

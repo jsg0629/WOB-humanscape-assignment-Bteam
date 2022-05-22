@@ -1,5 +1,5 @@
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { IDiseaseError } from 'types/disease.d'
-import { axios } from 'hooks/worker'
 
 const DISEASE_BASE_URL = '/api/B551182/diseaseInfoService/getDissNameCodeList'
 
@@ -11,31 +11,34 @@ interface Params {
   diseaseType?: string
   searchText: string
 }
+const axiosInstance = axios.create({
+  timeout: 10 * 1000,
+  withCredentials: false,
+})
 
-axios.interceptors.response.use(
-  (res) => {
-    if (!res.data.response) {
-      const errorMsg: IDiseaseError = { responseText: res.data, requestURL: res.config.url ?? '' }
+axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    if (!response.data.response) {
+      const errorMsg: IDiseaseError = { responseText: response.data, requestURL: response.config.url ?? '' }
       return Promise.reject(errorMsg)
     }
 
-    if (res.data.response.body.items === '' || !res.data.response.body.items.item)
+    if (response.data.response.body.items === '' || !response.data.response.body.items.item)
       return {
         data: '',
       }
 
-    return { data: res.data.response.body.items.item }
+    return { data: response.data.response.body.items.item }
   },
-  (error) => {
+  (error: AxiosError) => {
     // TODO: 타입 정의 OR 수정
-    const errorMsg: IDiseaseError = { responseText: error.request.responseText, requestURL: error.config.url }
+    const errorMsg: IDiseaseError = { responseText: error.request.responseText, requestURL: error.config.url ?? '' }
     return Promise.reject(errorMsg)
   }
 )
 
 export const getDisease = (params: Params) =>
-  axios.get(`${DISEASE_BASE_URL}`, {
-    timeout: 100000,
+  axiosInstance.get(`${DISEASE_BASE_URL}`, {
     params: {
       serviceKey: process.env.REACT_APP_DISEASE_API_KEY,
       ...params,
