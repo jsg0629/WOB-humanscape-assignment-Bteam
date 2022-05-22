@@ -18,7 +18,11 @@ const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
   const exceptMatchWord = keyWord.split(`${matchWord}`)
 
   const searchWordArray = exceptMatchWord.join(`/${matchWord}/`).split('/')
+<<<<<<< HEAD
+  // TODO: span 수정, 위로 따로 빼기?
+=======
 
+>>>>>>> 3893066fc3d0eca781bd904501d011b5ba2df60a
   return (
     <li>
       <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />

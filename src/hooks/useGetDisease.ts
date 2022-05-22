@@ -45,8 +45,7 @@ export const useGetDisease = ({
       })
     },
     {
-      staleTime: 6 * 10 * 1000,
-      refetchOnWindowFocus: true,
+      staleTime: 6 * 50 * 1000,
       useErrorBoundary: true,
       enabled: (searchWord.trim() !== '' && !isConsonant && !isGetAllData) || isGetAllData,
       onError: (error: IDiseaseError) => {

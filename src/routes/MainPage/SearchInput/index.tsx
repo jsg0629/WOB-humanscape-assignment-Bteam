@@ -10,7 +10,11 @@ import { getDiseaseList } from 'states/disease'
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
 
-const SerchInput = () => {
+interface ISerchInputProps {
+  getAllDataIsFetched: boolean
+}
+
+const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
@@ -24,6 +28,7 @@ const SerchInput = () => {
 
   const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
+    setSuggestedKeyword([])
   }
 
   useEffect(() => {
@@ -41,7 +46,6 @@ const SerchInput = () => {
 
   const handleOnCloseDropDonw = () => {
     setIsOpenDropdown(false)
-    setInputValue('')
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
@@ -64,10 +68,20 @@ const SerchInput = () => {
             placeholder='질환명을 입력해 주세요.'
           />
         </form>
+        <button type='submit'>검색</button>
       </div>
-      <button type='submit'>검색</button>
+
+<<<<<<< HEAD
+      {/* TODO: debouncedValue !== '' 필요? */}
+=======
+>>>>>>> 3893066fc3d0eca781bd904501d011b5ba2df60a
       {isOpenDropdown && debouncedValue !== '' && (
-        <DropDown suggestedKeyword={suggestedKeyword} isLoading={isLoading} searchWord={debouncedValue} />
+        <DropDown
+          suggestedKeyword={suggestedKeyword}
+          isLoading={isLoading}
+          searchWord={debouncedValue}
+          getAllDataIsFetched={getAllDataIsFetched}
+        />
       )}
     </div>
   )
