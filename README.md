@@ -128,7 +128,7 @@ yarn start
   - 초성 검색은 API 호출로 가져올 수 없어서 문자열 검색과 분리했습니다.
 
 - `MainPage`가 처음 mount 되면 `hooks/useGetDisease`를 호출하여 redux에 전체 결과를 저장하고
-- `MainPage/SearchInput`에서 검색어가 초성일 경우 `MainPage/utils/getConsonantSearch`를 호출하여 저장된 질병 리스트와 초성 검색어를 비교해 배열로 리턴하고 받은 검색 결과를 출력했습니다.
+- `MainPage/SearchInput`에서 검색어가 초성일 경우를 판단하여 초성 검색어이면 `MainPage/utils/getConsonantSearch`를 호출하여 저장된 질병 리스트와 초성 검색어를 비교해 배열로 리턴하고 받은 검색 결과를 출력했습니다.
 
 
 <br><br>
