@@ -3,34 +3,49 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
-import { useDebounce, useGetDisease } from 'hooks'
+import { useAppSelector, useDebounce, useGetDisease } from 'hooks'
 
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
+import { getConsonantSearch } from '../utils/getConsonantSearch'
+import { IDiseaseItem } from 'types/disease'
+import { getDiseaseList } from 'states/disease'
 
 const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
-  const debouncedValue = useDebounce(inputValue, 500)
+  const [isConsonant, setIsConsonant] = useState(false)
+  const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
 
-  const [suggestedKeyword, setSuggestedKeyword] = useState([])
+  const [suggestedKeyword, setSuggestedKeyword] = useState<IDiseaseItem[]>([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
   const [focusedDropDownItemIndex, setFocusedDropDownItemIndex] = useState<number>(-1)
 
-  const { isLoading, data: diseaseData } = useGetDisease(debouncedValue)
+  const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
+
+  const allDiseaseData = useAppSelector(getDiseaseList)
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.currentTarget.value)
+    setIsConsonant(false)
     setSuggestedKeyword([])
+    setInputValue(e.currentTarget.value)
   }
 
   useEffect(() => {
-    if (!diseaseData) return
-    setSuggestedKeyword(diseaseData)
+    if (diseaseData?.length > 0) {
+      setSuggestedKeyword(diseaseData)
+    }
+
+    if (isConsonant) {
+      const result = getConsonantSearch(debouncedValue, allDiseaseData)
+      setSuggestedKeyword(result)
+    }
+
     setIsOpenDropdown(true)
-  }, [diseaseData])
+  }, [allDiseaseData, debouncedValue, diseaseData, isConsonant])
 
   const handleOnCloseDropDown = () => {
     setIsOpenDropdown(false)
+    setInputValue('')
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDown)
@@ -100,6 +115,7 @@ const SerchInput = () => {
         <DropDown
           suggestedKeyword={suggestedKeyword}
           isLoading={isLoading}
+          searchWord={debouncedValue}
           focusedDropDownItemIndex={focusedDropDownItemIndex}
           setInputValue={setInputValue}
           setFocusedDropDownItemIndex={setFocusedDropDownItemIndex}

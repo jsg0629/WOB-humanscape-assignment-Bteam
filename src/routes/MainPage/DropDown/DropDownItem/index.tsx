@@ -9,11 +9,13 @@ interface IDropDownItemProps {
   keyWord: string
   index: number
   focusedDropDownItemIndex: number
+  searchWord: string
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
 }
 const DropDownItem = ({
   keyWord,
+  searchWord,
   index,
   focusedDropDownItemIndex,
   setInputValue,
@@ -45,7 +47,7 @@ const DropDownItem = ({
       onClick={handleDropDownItemClick}
     >
       <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
-      <span>{keyWord}</span>
+      <div>{keyWord}</div>
     </li>
   )
 }

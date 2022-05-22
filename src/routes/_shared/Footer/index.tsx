@@ -1,8 +1,6 @@
 import styles from './Footer.module.scss'
 
-interface Props {}
-
-const Footer = ({}: Props): JSX.Element => {
+const Footer = (): JSX.Element => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerTitle}>Wanted Frontend course Team6 B</div>

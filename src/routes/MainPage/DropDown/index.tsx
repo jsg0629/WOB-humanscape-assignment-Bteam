@@ -7,6 +7,7 @@ import styles from './DropDown.module.scss'
 interface IDropDownProps {
   suggestedKeyword: IDiseaseItem[]
   isLoading: boolean
+  searchWord: string
   focusedDropDownItemIndex: number
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
@@ -16,6 +17,7 @@ const DropDown = ({
   suggestedKeyword,
   isLoading,
   focusedDropDownItemIndex,
+  searchWord,
   setInputValue,
   setFocusedDropDownItemIndex,
 }: IDropDownProps) => {
@@ -29,13 +31,14 @@ const DropDown = ({
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
         <>
-          {suggestedKeyword.length === 0 && <div>추천검색어가 없습니다.</div>}
+          {suggestedKeyword.length === 0 && <div>추천 검색어가 없습니다.</div>}
           <ul>
             {suggestedKeyword.map((element: IDiseaseItem, index: number) => {
               return (
                 <DropDownItem
                   key={element.sickCd}
                   keyWord={element.sickNm}
+                  searchWord={searchWord}
                   index={index}
                   focusedDropDownItemIndex={focusedDropDownItemIndex}
                   setInputValue={setInputValue}
