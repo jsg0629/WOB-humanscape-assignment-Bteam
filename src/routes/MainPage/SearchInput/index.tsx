@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
@@ -22,6 +22,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   const [suggestedKeyword, setSuggestedKeyword] = useState<IDiseaseItem[]>([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
   const [focusedDropDownItemIndex, setFocusedDropDownItemIndex] = useState<number>(-1)
+  const [focusedDropDownItemTitle, setFocusedDropDownItemTitle] = useState<string>('')
 
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
@@ -55,8 +56,12 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
     setIsOpenDropdown(true)
   }
 
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
   const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!suggestedKeyword.length) return
+    if (suggestedKeyword.length === 0) return
 
     const resultArrayLength = suggestedKeyword.length
 
@@ -65,40 +70,29 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
       setFocusedDropDownItemIndex(-1)
     }
 
-    if (e.key === 'ArrowDown') {
-      if (focusedDropDownItemIndex === -1) {
-        setIsOpenDropdown(true)
-        setFocusedDropDownItemIndex(0)
-      }
-
-      if (focusedDropDownItemIndex !== -1) {
-        setFocusedDropDownItemIndex((prev) => prev + 1)
-      }
-
-      if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === resultArrayLength - 1) {
-        setFocusedDropDownItemIndex(0)
-      }
+    if (e.key === 'Enter') {
+      setInputValue(focusedDropDownItemTitle)
+      setIsOpenDropdown(false)
     }
 
+    if (e.key === 'ArrowDown') {
+      if (focusedDropDownItemIndex >= resultArrayLength - 1) {
+        setFocusedDropDownItemIndex(-1)
+      }
+      setFocusedDropDownItemIndex((prev) => prev + 1)
+    }
     if (e.key === 'ArrowUp') {
-      if (focusedDropDownItemIndex === -1) {
-        setFocusedDropDownItemIndex(0)
+      if (focusedDropDownItemIndex <= 0) {
+        setFocusedDropDownItemIndex(resultArrayLength)
       }
-
-      if (focusedDropDownItemIndex !== -1) {
-        setFocusedDropDownItemIndex((prev) => prev - 1)
-      }
-
-      if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === 0) {
-        setFocusedDropDownItemIndex(resultArrayLength - 1)
-      }
+      setFocusedDropDownItemIndex((prev) => prev - 1)
     }
   }
 
   return (
     <div className={styles.serchInputForm} ref={backDropRef}>
       <div className={styles.inputBox}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleFormSubmit}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
@@ -123,6 +117,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
           focusedDropDownItemIndex={focusedDropDownItemIndex}
           setInputValue={setInputValue}
           setFocusedDropDownItemIndex={setFocusedDropDownItemIndex}
+          setFocusedDropDownItemTitle={setFocusedDropDownItemTitle}
         />
       )}
     </div>
