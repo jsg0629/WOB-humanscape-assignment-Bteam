@@ -25,8 +25,6 @@ const DropDown = ({
   setFocusedDropDownItemIndex,
   setFocusedDropDownItemTitle,
 }: IDropDownProps) => {
-  // TODO: getAllDataIsFetched 지저분..
-
   const dropDownCleanUp = useCallback(() => {
     setFocusedDropDownItemIndex(-1)
     setFocusedDropDownItemTitle('')

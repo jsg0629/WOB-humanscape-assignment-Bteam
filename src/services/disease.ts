@@ -18,11 +18,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
-    if (!response.data.response) {
-      const errorMsg: IDiseaseError = { responseText: response.data, requestURL: response.config.url ?? '' }
-      return Promise.reject(errorMsg)
-    }
-
     if (response.data.response.body.items === '' || !response.data.response.body.items.item)
       return {
         data: '',
@@ -31,7 +26,6 @@ axiosInstance.interceptors.response.use(
     return { data: response.data.response.body.items.item }
   },
   (error: AxiosError) => {
-    // TODO: 타입 정의 OR 수정
     const errorMsg: IDiseaseError = { responseText: error.request.responseText, requestURL: error.config.url ?? '' }
     return Promise.reject(errorMsg)
   }
@@ -40,7 +34,7 @@ axiosInstance.interceptors.response.use(
 export const getDisease = (params: Params) =>
   axiosInstance.get(`${DISEASE_BASE_URL}`, {
     params: {
-      serviceKey: process.env.REACT_APP_DISEASE_API_KEY,
+      serviceKey: process.env.REACT_APP_DISEASE_API_KEY2,
       ...params,
     },
   })

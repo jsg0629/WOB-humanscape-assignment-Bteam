@@ -31,8 +31,7 @@ function ch2pattern(ch: string) {
   }
 
   if (/[ㄱ-ㅎ]/.test(ch)) {
-    const begin =
-      con2syl[ch as keyof typeof con2syl] || (ch.charCodeAt(0) - 12613) /* 'ㅅ'의 코드 */ * 588 + con2syl['ㅅ']
+    const begin = con2syl[ch as keyof typeof con2syl] || (ch.charCodeAt(0) - 12613) * 588 + con2syl['ㅅ']
     const end = begin + 587
 
     return `[${ch}\\u${begin.toString(16)}-\\u${end.toString(16)}]`
@@ -53,7 +52,6 @@ function createFuzzyMatcher(input: string) {
 const getConsonantSearch = (searchConsonant: string, allDiseaseData: IDiseaseItem[]): IDiseaseItem[] => {
   const regex = createFuzzyMatcher(searchConsonant)
 
-  // TODO: 정리
   const filteredData = allDiseaseData
     .filter((row) => {
       return regex.test(row.sickNm)

@@ -1,9 +1,8 @@
 import { useQuery } from 'react-query'
 
 import { getDisease } from 'services/disease'
-import { setDiseaseList, setError } from 'states/disease'
+import { setDiseaseList } from 'states/disease'
 import { increment, countApi } from 'states/count'
-import { IDiseaseError } from 'types/disease'
 import { useAppSelector, useAppDispatch } from 'hooks'
 
 interface IUseGetDiseaseProps {
@@ -48,9 +47,6 @@ export const useGetDisease = ({
       staleTime: 6 * 50 * 1000,
       useErrorBoundary: true,
       enabled: (searchWord.trim() !== '' && !isConsonant && !isGetAllData) || isGetAllData,
-      onError: (error: IDiseaseError) => {
-        dispatch(setError(error))
-      },
       select: (value) => {
         if (!value || value === '') return []
         const searchedData = value.length ? value : [value]
