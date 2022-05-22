@@ -21,6 +21,10 @@
     li {
       padding: 10px;
 
+      &:hover {
+        cursor: pointer;
+      }
+
       svg {
         color: colors.$DROP_SVG;
       }
@@ -34,4 +38,8 @@
 
 .list {
   background-color: rgb(184, 240, 250);
+}
+
+.isFocused {
+  background-color: colors.$GRAYE;
 }

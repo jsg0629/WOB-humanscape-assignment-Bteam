@@ -1,13 +1,28 @@
+import { Dispatch, SetStateAction, useEffect } from 'react'
+
 import DropDownItem from './DropDownItem'
-import styles from './DropDown.module.scss'
 import { IDiseaseItem } from 'types/disease'
+import styles from './DropDown.module.scss'
 
 interface IDropDownProps {
   suggestedKeyword: IDiseaseItem[]
   isLoading: boolean
+  focusedDropDownItemIndex: number
+  setInputValue: Dispatch<SetStateAction<string>>
+  setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
 }
 
-const DropDown = ({ suggestedKeyword, isLoading }: IDropDownProps) => {
+const DropDown = ({
+  suggestedKeyword,
+  isLoading,
+  focusedDropDownItemIndex,
+  setInputValue,
+  setFocusedDropDownItemIndex,
+}: IDropDownProps) => {
+  useEffect(() => {
+    return setFocusedDropDownItemIndex(-1)
+  }, [setFocusedDropDownItemIndex, suggestedKeyword])
+
   return (
     <div className={styles.dropDownWrapper}>
       <div className={styles.dropDownTitle}>추천 검색어</div>
@@ -16,8 +31,17 @@ const DropDown = ({ suggestedKeyword, isLoading }: IDropDownProps) => {
         <>
           {suggestedKeyword.length === 0 && <div>추천검색어가 없습니다.</div>}
           <ul>
-            {suggestedKeyword.map((element: IDiseaseItem) => {
-              return <DropDownItem key={element.sickCd} keyWord={element.sickNm} />
+            {suggestedKeyword.map((element: IDiseaseItem, index: number) => {
+              return (
+                <DropDownItem
+                  key={element.sickCd}
+                  keyWord={element.sickNm}
+                  index={index}
+                  focusedDropDownItemIndex={focusedDropDownItemIndex}
+                  setInputValue={setInputValue}
+                  setFocusedDropDownItemIndex={setFocusedDropDownItemIndex}
+                />
+              )
             })}
           </ul>
         </>
