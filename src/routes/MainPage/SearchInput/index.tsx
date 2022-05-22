@@ -71,7 +71,10 @@ const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
         <button type='submit'>검색</button>
       </div>
 
+<<<<<<< HEAD
       {/* TODO: debouncedValue !== '' 필요? */}
+=======
+>>>>>>> 3893066fc3d0eca781bd904501d011b5ba2df60a
       {isOpenDropdown && debouncedValue !== '' && (
         <DropDown
           suggestedKeyword={suggestedKeyword}
