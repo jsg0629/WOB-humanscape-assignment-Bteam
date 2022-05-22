@@ -23,6 +23,10 @@
       position: relative;
       padding: 10px 25px;
 
+      &:hover {
+        cursor: pointer;
+      }
+
       svg {
         color: colors.$DROP_SVG;
       }
@@ -46,4 +50,8 @@
 .noResult,
 .loading {
   padding: 16px 0;
+}
+
+.isFocused {
+  background-color: colors.$GRAYE;
 }

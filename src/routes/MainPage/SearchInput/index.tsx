@@ -10,17 +10,18 @@ import { getDiseaseList } from 'states/disease'
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
 
-interface ISerchInputProps {
+interface ISearchInputProps {
   getAllDataIsFetched: boolean
 }
 
-const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
+const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
 
   const [suggestedKeyword, setSuggestedKeyword] = useState<IDiseaseItem[]>([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
+  const [focusedDropDownItemIndex, setFocusedDropDownItemIndex] = useState<number>(-1)
 
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
@@ -44,14 +45,54 @@ const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
     setIsOpenDropdown(true)
   }, [allDiseaseData, debouncedValue, diseaseData, isConsonant])
 
-  const handleOnCloseDropDonw = () => {
+  const handleOnCloseDropDown = () => {
     setIsOpenDropdown(false)
   }
 
-  const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
+  const backDropRef = useOnClickOutside(handleOnCloseDropDown)
 
   const handleOnFocusInput = () => {
     setIsOpenDropdown(true)
+  }
+
+  const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!suggestedKeyword.length) return
+
+    const resultArrayLength = suggestedKeyword.length
+
+    if (e.key === 'Escape') {
+      setIsOpenDropdown(false)
+      setFocusedDropDownItemIndex(-1)
+    }
+
+    if (e.key === 'ArrowDown') {
+      if (focusedDropDownItemIndex === -1) {
+        setIsOpenDropdown(true)
+        setFocusedDropDownItemIndex(0)
+      }
+
+      if (focusedDropDownItemIndex !== -1) {
+        setFocusedDropDownItemIndex((prev) => prev + 1)
+      }
+
+      if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === resultArrayLength - 1) {
+        setFocusedDropDownItemIndex(0)
+      }
+    }
+
+    if (e.key === 'ArrowUp') {
+      if (focusedDropDownItemIndex === -1) {
+        setFocusedDropDownItemIndex(0)
+      }
+
+      if (focusedDropDownItemIndex !== -1) {
+        setFocusedDropDownItemIndex((prev) => prev - 1)
+      }
+
+      if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === 0) {
+        setFocusedDropDownItemIndex(resultArrayLength - 1)
+      }
+    }
   }
 
   return (
@@ -66,6 +107,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
             value={inputValue}
             type='text'
             placeholder='질환명을 입력해 주세요.'
+            onKeyDown={handleKeyboardNavigation}
           />
         </form>
         <button type='submit'>검색</button>
@@ -78,6 +120,9 @@ const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
           isLoading={isLoading}
           searchWord={debouncedValue}
           getAllDataIsFetched={getAllDataIsFetched}
+          focusedDropDownItemIndex={focusedDropDownItemIndex}
+          setInputValue={setInputValue}
+          setFocusedDropDownItemIndex={setFocusedDropDownItemIndex}
         />
       )}
     </div>
