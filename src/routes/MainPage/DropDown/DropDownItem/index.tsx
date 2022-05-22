@@ -13,6 +13,7 @@ interface IDropDownItemProps {
   focusedDropDownItemIndex: number
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
+  setFocusedDropDownItemTitle: Dispatch<SetStateAction<string>>
 }
 
 const DropDownItem = ({
@@ -22,16 +23,18 @@ const DropDownItem = ({
   focusedDropDownItemIndex,
   setInputValue,
   setFocusedDropDownItemIndex,
+  setFocusedDropDownItemTitle,
 }: IDropDownItemProps) => {
   const [isFocused, setIsFocused] = useState(false)
 
   useEffect(() => {
     if (itemIndex === focusedDropDownItemIndex) {
       setIsFocused(true)
+      setFocusedDropDownItemTitle(keyWord)
     } else {
       setIsFocused(false)
     }
-  }, [focusedDropDownItemIndex, itemIndex, isFocused, keyWord])
+  }, [focusedDropDownItemIndex, itemIndex, isFocused, keyWord, setFocusedDropDownItemTitle])
 
   const handleMouseHoverEvent = () => {
     setFocusedDropDownItemIndex(itemIndex)

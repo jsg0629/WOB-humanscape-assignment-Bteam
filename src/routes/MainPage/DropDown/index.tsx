@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
 
 import DropDownItem from './DropDownItem'
 import { IDiseaseItem } from 'types/disease'
@@ -12,6 +12,7 @@ interface IDropDownProps {
   focusedDropDownItemIndex: number
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
+  setFocusedDropDownItemTitle: Dispatch<SetStateAction<string>>
 }
 
 const DropDown = ({
@@ -22,12 +23,18 @@ const DropDown = ({
   focusedDropDownItemIndex,
   setInputValue,
   setFocusedDropDownItemIndex,
+  setFocusedDropDownItemTitle,
 }: IDropDownProps) => {
   // TODO: getAllDataIsFetched 지저분..
 
+  const dropDownCleanUp = useCallback(() => {
+    setFocusedDropDownItemIndex(-1)
+    setFocusedDropDownItemTitle('')
+  }, [setFocusedDropDownItemIndex, setFocusedDropDownItemTitle])
+
   useEffect(() => {
-    return setFocusedDropDownItemIndex(-1)
-  }, [setFocusedDropDownItemIndex, suggestedKeyword])
+    return dropDownCleanUp
+  }, [dropDownCleanUp, suggestedKeyword])
 
   return (
     <div className={styles.dropDownWrapper}>
@@ -47,6 +54,7 @@ const DropDown = ({
                   focusedDropDownItemIndex={focusedDropDownItemIndex}
                   setInputValue={setInputValue}
                   setFocusedDropDownItemIndex={setFocusedDropDownItemIndex}
+                  setFocusedDropDownItemTitle={setFocusedDropDownItemTitle}
                 />
               )
             })}

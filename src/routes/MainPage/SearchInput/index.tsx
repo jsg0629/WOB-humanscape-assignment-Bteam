@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
@@ -22,6 +22,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   const [suggestedKeyword, setSuggestedKeyword] = useState<IDiseaseItem[]>([])
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
   const [focusedDropDownItemIndex, setFocusedDropDownItemIndex] = useState<number>(-1)
+  const [focusedDropDownItemTitle, setFocusedDropDownItemTitle] = useState<string>('')
 
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
@@ -55,6 +56,10 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
     setIsOpenDropdown(true)
   }
 
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
   const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!suggestedKeyword.length) return
 
@@ -63,6 +68,11 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
     if (e.key === 'Escape') {
       setIsOpenDropdown(false)
       setFocusedDropDownItemIndex(-1)
+    }
+
+    if (e.key === 'Enter') {
+      setInputValue(focusedDropDownItemTitle)
+      setIsOpenDropdown(false)
     }
 
     if (e.key === 'ArrowDown') {
@@ -98,7 +108,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   return (
     <div className={styles.serchInputForm} ref={backDropRef}>
       <div className={styles.inputBox}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleFormSubmit}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
@@ -123,6 +133,7 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
           focusedDropDownItemIndex={focusedDropDownItemIndex}
           setInputValue={setInputValue}
           setFocusedDropDownItemIndex={setFocusedDropDownItemIndex}
+          setFocusedDropDownItemTitle={setFocusedDropDownItemTitle}
         />
       )}
     </div>
