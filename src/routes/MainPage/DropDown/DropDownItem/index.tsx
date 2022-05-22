@@ -18,6 +18,7 @@ const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
   const exceptMatchWord = keyWord.split(`${matchWord}`)
 
   const searchWordArray = exceptMatchWord.join(`/${matchWord}/`).split('/')
+
   // TODO: span 수정, 위로 따로 빼기?
   return (
     <li>

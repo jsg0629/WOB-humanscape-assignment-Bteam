@@ -8,6 +8,7 @@ interface IDropDownProps {
   searchWord: string
   getAllDataIsFetched: boolean
 }
+
 // TODO: getAllDataIsFetched 지저분..
 const DropDown = ({ suggestedKeyword, isLoading, searchWord, getAllDataIsFetched }: IDropDownProps) => {
   return (
