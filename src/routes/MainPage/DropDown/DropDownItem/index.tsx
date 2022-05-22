@@ -8,16 +8,17 @@ import { createFuzzyMatcher } from 'routes/MainPage/utils/getConsonantSearch'
 
 interface IDropDownItemProps {
   keyWord: string
-  index: number
+  itemIndex: number
   focusedDropDownItemIndex: number
   searchWord: string
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
 }
+
 const DropDownItem = ({
   keyWord,
   searchWord,
-  index,
+  itemIndex,
   focusedDropDownItemIndex,
   setInputValue,
   setFocusedDropDownItemIndex,
@@ -25,22 +26,21 @@ const DropDownItem = ({
   const [isFocused, setIsFocused] = useState(false)
 
   useEffect(() => {
-    if (index === focusedDropDownItemIndex) {
+    if (itemIndex === focusedDropDownItemIndex) {
       setIsFocused(true)
     } else {
       setIsFocused(false)
     }
-  }, [focusedDropDownItemIndex, index, isFocused, keyWord])
+  }, [focusedDropDownItemIndex, itemIndex, isFocused, keyWord])
 
   const handleMouseHoverEvent = () => {
-    setFocusedDropDownItemIndex(index)
+    setFocusedDropDownItemIndex(itemIndex)
   }
 
   const handleDropDownItemClick = () => {
     setInputValue(keyWord)
   }
 
-const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
   const regex = createFuzzyMatcher(searchWord)
 
   const matchWord = keyWord
@@ -67,4 +67,5 @@ const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
     </li>
   )
 }
+
 export default DropDownItem
