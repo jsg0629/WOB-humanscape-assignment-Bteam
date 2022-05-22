@@ -21,6 +21,7 @@
   ul {
     li {
       position: relative;
+      padding: 10px 25px;
 
       &:hover {
         cursor: pointer;
@@ -29,7 +30,6 @@
       svg {
         color: colors.$DROP_SVG;
       }
-      padding: 10px;
 
       span {
         padding-left: 15px;
@@ -44,7 +44,12 @@
 }
 
 .serchIcon {
-  @include position.absolute(9px 0 0 -12px);
+  @include position.absolute(9px 0 0 0);
+}
+
+.noResult,
+.loading {
+  padding: 16px 0;
 }
 
 .isFocused {

@@ -51,6 +51,7 @@ const DropDownItem = ({
 
   const searchWordArray = exceptMatchWord.join(`/${matchWord}/`).split('/')
 
+  // TODO: span 수정, 위로 따로 빼기?
   return (
     <li
       role='menuitem'

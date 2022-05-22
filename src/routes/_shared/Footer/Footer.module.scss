@@ -13,8 +13,12 @@
 
   @include responsive.mobileOnly {
     flex-direction: column;
-    padding: 10px;
+    padding: 8px;
     line-height: 10px;
+
+    .footerSubTitle {
+      font-size: 12px;
+    }
   }
 
   .footerSubTitle {
@@ -22,8 +26,8 @@
   }
 
   .footerTitle {
-    font-size: 0.875rem;
+    font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.018em;
+    letter-spacing: 3px;
   }
 }

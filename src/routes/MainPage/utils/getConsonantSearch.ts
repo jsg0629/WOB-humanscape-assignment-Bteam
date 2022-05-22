@@ -1,5 +1,5 @@
-import { IDiseaseItem } from 'types/disease'
 import { escapeRegExp } from 'lodash'
+import { IDiseaseItem } from 'types/disease'
 
 const OFFSET = 44032
 

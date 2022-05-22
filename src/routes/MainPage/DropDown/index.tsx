@@ -8,6 +8,7 @@ interface IDropDownProps {
   suggestedKeyword: IDiseaseItem[]
   isLoading: boolean
   searchWord: string
+  getAllDataIsFetched: boolean
   focusedDropDownItemIndex: number
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
@@ -18,9 +19,12 @@ const DropDown = ({
   isLoading,
   focusedDropDownItemIndex,
   searchWord,
+  getAllDataIsFetched,
   setInputValue,
   setFocusedDropDownItemIndex,
 }: IDropDownProps) => {
+  // TODO: getAllDataIsFetched 지저분..
+
   useEffect(() => {
     return setFocusedDropDownItemIndex(-1)
   }, [setFocusedDropDownItemIndex, suggestedKeyword])
@@ -28,10 +32,10 @@ const DropDown = ({
   return (
     <div className={styles.dropDownWrapper}>
       <div className={styles.dropDownTitle}>추천 검색어</div>
-      {isLoading && <div>Loading...</div>}
-      {!isLoading && (
+      {(isLoading || !getAllDataIsFetched) && <div className={styles.loading}>Loading...</div>}
+      {!isLoading && getAllDataIsFetched && (
         <>
-          {suggestedKeyword.length === 0 && <div>추천 검색어가 없습니다.</div>}
+          {suggestedKeyword.length === 0 && <div className={styles.noResult}>추천 검색어가 없습니다.</div>}
           <ul>
             {suggestedKeyword.map((element: IDiseaseItem, index: number) => {
               return (

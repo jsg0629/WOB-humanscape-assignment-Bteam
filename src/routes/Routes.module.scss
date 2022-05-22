@@ -4,7 +4,7 @@
 .appWrapper {
   @include flexbox.flexbox('between');
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
   overflow: scroll;
   background-color: colors.$WRAPPER_BACKGROUND;
 }

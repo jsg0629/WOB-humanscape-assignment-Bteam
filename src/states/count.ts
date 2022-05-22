@@ -10,6 +10,7 @@ const INITIAL_STATE: ICount = {
   value: 1,
 }
 
+// TODO: increment, countAPI
 const countSlice = createSlice({
   name: 'count',
   initialState: INITIAL_STATE,
