@@ -11,8 +11,10 @@ interface IDropDownItemProps {
 const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
   const regex = createFuzzyMatcher(searchWord)
 
-  const matchLetter = keyWord.match(regex)?.slice(1, searchWord.length + 1)
-  const matchWord = matchLetter?.join('')
+  const matchWord = keyWord
+    .match(regex)
+    ?.slice(1, searchWord.length + 1)
+    .join('')
   const exceptMatchWord = keyWord.split(`${matchWord}`)
 
   const searchWordArray = exceptMatchWord.join(`/${matchWord}/`).split('/')
