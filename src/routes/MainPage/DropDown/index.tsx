@@ -17,9 +17,9 @@ interface IDropDownProps {
 const DropDown = ({
   suggestedKeyword,
   isLoading,
-  focusedDropDownItemIndex,
   searchWord,
   getAllDataIsFetched,
+  focusedDropDownItemIndex,
   setInputValue,
   setFocusedDropDownItemIndex,
 }: IDropDownProps) => {

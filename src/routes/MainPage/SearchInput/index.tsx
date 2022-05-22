@@ -10,11 +10,11 @@ import { getDiseaseList } from 'states/disease'
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
 
-interface ISerchInputProps {
+interface ISearchInputProps {
   getAllDataIsFetched: boolean
 }
 
-const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
+const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)

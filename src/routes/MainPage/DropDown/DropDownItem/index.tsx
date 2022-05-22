@@ -8,9 +8,9 @@ import { createFuzzyMatcher } from 'routes/MainPage/utils/getConsonantSearch'
 
 interface IDropDownItemProps {
   keyWord: string
+  searchWord: string
   itemIndex: number
   focusedDropDownItemIndex: number
-  searchWord: string
   setInputValue: Dispatch<SetStateAction<string>>
   setFocusedDropDownItemIndex: Dispatch<SetStateAction<number>>
 }
