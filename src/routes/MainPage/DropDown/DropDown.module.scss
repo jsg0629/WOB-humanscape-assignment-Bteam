@@ -21,7 +21,7 @@
   ul {
     li {
       position: relative;
-      padding: 10px 25px;
+      padding: 10px 15px;
 
       &:hover {
         cursor: pointer;
@@ -31,7 +31,7 @@
         color: colors.$DROP_SVG;
       }
 
-      span {
+      div {
         padding-left: 15px;
 
         mark {
@@ -43,7 +43,7 @@
   }
 }
 
-.serchIcon {
+.searchIcon {
   @include position.absolute(9px 0 0 0);
 }
 

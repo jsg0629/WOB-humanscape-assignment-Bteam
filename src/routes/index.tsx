@@ -1,22 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
 
-import { useAppSelector } from 'hooks'
-import { getDiseaseError } from 'states/disease'
-
-import ErrorBoundary from 'components/ErrorBoundary'
 import MainPage from './MainPage'
 import Header from './_shared/Header'
 import Footer from './_shared/Footer'
 import NotFound from './_shared/NotFound'
 import styles from './Routes.module.scss'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from 'components/ErrorBoundary/ErrorFallback'
 
 const App = () => {
-  const myError = useAppSelector(getDiseaseError)
-
   return (
     <div className={styles.appWrapper}>
       <Header />
-      <ErrorBoundary myError={myError}>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <div className={styles.app}>
           <Routes>
             <Route path='/' element={<MainPage />} />

@@ -2,7 +2,7 @@
 @use '/src/styles/mixins/position';
 @use '/src/styles/mixins/responsive';
 
-.serchInputForm {
+.searchInputForm {
   position: relative;
   max-width: 650px;
   margin: auto;
@@ -16,24 +16,24 @@
     background-color: colors.$WHITE;
     border-radius: 42px;
 
-    .serchIcon {
+    .searchIcon {
       @include position.absolute(50% auto auto -7px);
       font-size: 15px;
       transform: translateY(-50%);
     }
 
-    .serchInput {
+    .searchInput {
       width: 100%;
-      margin-left: 15px;
+      margin-left: 20px;
       line-height: 40px;
     }
   }
 
   @include responsive.after(SD) {
-    .serchInputForm {
+    .searchInputForm {
       min-width: 500px;
 
-      .serchInput {
+      .searchInput {
         min-width: 500px;
       }
     }

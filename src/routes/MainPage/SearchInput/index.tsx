@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect, ChangeEvent, FormEvent, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
@@ -14,7 +14,7 @@ interface ISearchInputProps {
   getAllDataIsFetched: boolean
 }
 
-const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
+const SearchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
@@ -23,14 +23,13 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
   const [focusedDropDownItemIndex, setFocusedDropDownItemIndex] = useState<number>(-1)
   const [focusedDropDownItemTitle, setFocusedDropDownItemTitle] = useState<string>('')
-
+  const inputRef = useRef<HTMLInputElement>(null)
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
   const allDiseaseData = useAppSelector(getDiseaseList)
 
   const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
-    setSuggestedKeyword([])
   }
 
   useEffect(() => {
@@ -62,12 +61,12 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
 
   const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (suggestedKeyword.length === 0) return
-
     const resultArrayLength = suggestedKeyword.length
 
     if (e.key === 'Escape') {
       setIsOpenDropdown(false)
       setFocusedDropDownItemIndex(-1)
+      inputRef.current?.blur()
     }
 
     if (e.key === 'Enter') {
@@ -90,24 +89,24 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   }
 
   return (
-    <div className={styles.serchInputForm} ref={backDropRef}>
+    <div className={styles.searchInputForm} ref={backDropRef}>
       <div className={styles.inputBox}>
         <form className={styles.form} onSubmit={handleFormSubmit}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
+          <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon} />
           <input
-            className={styles.serchInput}
+            className={styles.searchInput}
             onChange={handleOnChangeInput}
             onFocus={handleOnFocusInput}
             value={inputValue}
             type='text'
             placeholder='질환명을 입력해 주세요.'
             onKeyDown={handleKeyboardNavigation}
+            ref={inputRef}
           />
         </form>
         <button type='submit'>검색</button>
       </div>
 
-      {/* TODO: debouncedValue !== '' 필요? */}
       {isOpenDropdown && debouncedValue !== '' && (
         <DropDown
           suggestedKeyword={suggestedKeyword}
@@ -124,4 +123,4 @@ const SerchInput = ({ getAllDataIsFetched }: ISearchInputProps) => {
   )
 }
 
-export default SerchInput
+export default SearchInput

@@ -54,7 +54,6 @@ const DropDownItem = ({
 
   const searchWordArray = exceptMatchWord.join(`/${matchWord}/`).split('/')
 
-  // TODO: span 수정, 위로 따로 빼기?
   return (
     <li
       role='menuitem'
@@ -62,12 +61,12 @@ const DropDownItem = ({
       onMouseMove={handleMouseHoverEvent}
       onClick={handleDropDownItemClick}
     >
-      <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
-      <span>
+      <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon} />
+      <div>
         {searchWordArray.map((part, index) =>
           part === matchWord ? <mark key={`${keyWord}-${searchWord}-${index + 1}`}>{part}</mark> : part
         )}
-      </span>
+      </div>
     </li>
   )
 }
