@@ -1,17 +1,23 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useOnClickOutside } from 'hooks/useOnClickOutside'
 
+import { IDiseaseItem } from 'types/disease'
 import { useAppSelector, useDebounce, useGetDisease } from 'hooks'
+import { useOnClickOutside } from 'hooks/useOnClickOutside'
+import { getDiseaseList } from 'states/disease'
 
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
 import { getConsonantSearch } from '../utils/getConsonantSearch'
-import { IDiseaseItem } from 'types/disease'
-import { getDiseaseList } from 'states/disease'
 
-const SerchInput = () => {
+interface ISerchInputProps {
+  getAllDataIsFetched: boolean
+}
+
+const SerchInput = ({ getAllDataIsFetched }: ISerchInputProps) => {
+  const allDiseaseData = useAppSelector(getDiseaseList)
+
   const [inputValue, setInputValue] = useState('')
   const [isConsonant, setIsConsonant] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500, setIsConsonant)
@@ -21,10 +27,7 @@ const SerchInput = () => {
 
   const { isLoading, data: diseaseData } = useGetDisease({ searchWord: debouncedValue, isConsonant })
 
-  const allDiseaseData = useAppSelector(getDiseaseList)
-
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setIsConsonant(false)
     setSuggestedKeyword([])
     setInputValue(e.currentTarget.value)
   }
@@ -44,7 +47,6 @@ const SerchInput = () => {
 
   const handleOnCloseDropDonw = () => {
     setIsOpenDropdown(false)
-    setInputValue('')
   }
 
   const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
@@ -67,10 +69,16 @@ const SerchInput = () => {
             placeholder='질환명을 입력해 주세요.'
           />
         </form>
+        <button type='submit'>검색</button>
       </div>
-      <button type='submit'>검색</button>
+
       {isOpenDropdown && debouncedValue !== '' && (
-        <DropDown suggestedKeyword={suggestedKeyword} isLoading={isLoading} searchWord={debouncedValue} />
+        <DropDown
+          suggestedKeyword={suggestedKeyword}
+          isLoading={isLoading}
+          searchWord={debouncedValue}
+          getAllDataIsFetched={getAllDataIsFetched}
+        />
       )}
     </div>
   )

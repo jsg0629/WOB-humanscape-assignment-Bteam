@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import styles from '../DropDown.module.scss'
+import { createFuzzyMatcher } from 'routes/MainPage/utils/getConsonantSearch'
 
 interface IDropDownItemProps {
   keyWord: string
@@ -8,8 +9,7 @@ interface IDropDownItemProps {
 }
 
 const DropDownItem = ({ keyWord, searchWord }: IDropDownItemProps) => {
-  // eslint-disable-next-line no-console
-  console.log(searchWord)
+  const regex = createFuzzyMatcher(searchWord.replace(/(\s*)/g, ''))
   return (
     <li>
       <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
