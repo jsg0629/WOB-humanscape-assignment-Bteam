@@ -29,11 +29,11 @@ const SerchInput = () => {
     setIsOpenDropdown(true)
   }, [diseaseData])
 
-  const handleOnCloseDropDonw = () => {
+  const handleOnCloseDropDown = () => {
     setIsOpenDropdown(false)
   }
 
-  const backDropRef = useOnClickOutside(handleOnCloseDropDonw)
+  const backDropRef = useOnClickOutside(handleOnCloseDropDown)
 
   const handleOnFocusInput = () => {
     setIsOpenDropdown(true)
@@ -41,9 +41,8 @@ const SerchInput = () => {
 
   const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!suggestedKeyword.length) return
-    const resultArrayLength = suggestedKeyword.length
 
-    console.log(e.key)
+    const resultArrayLength = suggestedKeyword.length
 
     if (e.key === 'Escape') {
       setIsOpenDropdown(false)
@@ -55,20 +54,25 @@ const SerchInput = () => {
         setIsOpenDropdown(true)
         setFocusedDropDownItemIndex(0)
       }
+
       if (focusedDropDownItemIndex !== -1) {
         setFocusedDropDownItemIndex((prev) => prev + 1)
       }
+
       if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === resultArrayLength - 1) {
         setFocusedDropDownItemIndex(0)
       }
     }
+
     if (e.key === 'ArrowUp') {
       if (focusedDropDownItemIndex === -1) {
         setFocusedDropDownItemIndex(0)
       }
+
       if (focusedDropDownItemIndex !== -1) {
         setFocusedDropDownItemIndex((prev) => prev - 1)
       }
+
       if (focusedDropDownItemIndex !== -1 && focusedDropDownItemIndex === 0) {
         setFocusedDropDownItemIndex(resultArrayLength - 1)
       }
