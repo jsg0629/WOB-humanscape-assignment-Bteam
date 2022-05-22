@@ -1,15 +1,14 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useOnClickOutside } from 'hooks/useOnClickOutside'
 
-import { useAppSelector, useDebounce, useGetDisease } from 'hooks'
+import { IDiseaseItem } from 'types/disease'
+import { useAppSelector, useDebounce, useGetDisease, useOnClickOutside } from 'hooks'
+import { getConsonantSearch } from '../utils/getConsonantSearch'
+import { getDiseaseList } from 'states/disease'
 
 import DropDown from '../DropDown'
 import styles from './SearchInput.module.scss'
-import { getConsonantSearch } from '../utils/getConsonantSearch'
-import { IDiseaseItem } from 'types/disease'
-import { getDiseaseList } from 'states/disease'
 
 const SerchInput = () => {
   const [inputValue, setInputValue] = useState('')
@@ -23,9 +22,7 @@ const SerchInput = () => {
 
   const allDiseaseData = useAppSelector(getDiseaseList)
 
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
-    setIsConsonant(false)
-    setSuggestedKeyword([])
+  const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.currentTarget.value)
   }
 
@@ -60,7 +57,7 @@ const SerchInput = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.serchIcon} />
           <input
             className={styles.serchInput}
-            onChange={handleInputValue}
+            onChange={handleOnChangeInput}
             onFocus={handleOnFocusInput}
             value={inputValue}
             type='text'
